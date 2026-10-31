@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="112" fill="#b9781f"/>
+  <circle cx="256" cy="256" r="150" fill="none" stroke="#f7f1e6" stroke-width="10" opacity="0.45"/>
+  <text
+    x="256"
+    y="318"
+    font-family="Noto Serif Devanagari, Nirmala UI, serif"
+    font-size="230"
+    fill="#f7f1e6"
+    text-anchor="middle"
+  >ॐ</text>
+</svg>

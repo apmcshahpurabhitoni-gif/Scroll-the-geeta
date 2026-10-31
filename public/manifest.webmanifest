@@ -1,0 +1,18 @@
+{
+  "name": "Scroll the Gita — Daily Wisdom",
+  "short_name": "Scroll the Gita",
+  "description": "One Bhagavad Gita teaching each day, plus the complete scripture in a calm, readable feed.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#f7f1e6",
+  "theme_color": "#f7f1e6",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
