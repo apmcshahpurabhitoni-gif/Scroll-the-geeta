@@ -1,6 +1,6 @@
 # Scroll the Gita
 
-A bilingual (Sanskrit + English/Hindi) Bhagavad Gita reader: one verse per frame,
+A bilingual (Sanskrit + English/Hindi) Bhagavad Gita reader: one verse at a time,
 a daily verse, bookmarks, topics and a reading journey. Vanilla ES modules built
 with Vite — no framework.
 
@@ -30,7 +30,7 @@ so free scrolling never floods the history stack.
 
 ## Gesture zones
 
-The verse frame has two fixed rails; only the body between them scrolls.
+The reader has two fixed rails; only `#feed` between them scrolls.
 
 ```
 ┌────────────────────────────────────────────┐
