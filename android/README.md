@@ -13,7 +13,7 @@ This is the native Android application, separate from the existing Vite website.
 
 ## Open in Android Studio
 
-Open the `android/` directory as the project. Android Studio should use the pinned Gradle distribution and prompt to install missing SDK platforms/build tools. Start with a Pixel emulator (API 36), then add small-screen and large-font profiles.
+Open the `android/` directory as the project in Android Studio. The checked-in Gradle wrapper pins Gradle 9.9.0; Android Studio should prompt to install missing SDK platforms/build tools. Start with a Pixel emulator (API 36), then add small-screen and large-font profiles.
 
 ## Current state
 
