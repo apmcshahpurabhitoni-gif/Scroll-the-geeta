@@ -2,7 +2,7 @@
 import { chromium } from 'playwright';
 import { mkdirSync } from 'node:fs';
 
-const URL = process.env.AUDIT_URL || 'https://site-319aa22e54d448878c96aed3c801558c.freebuff.page/';
+const URL = process.env.AUDIT_URL || 'https://scrollthegeeta.netlify.app/';
 mkdirSync('artifacts', { recursive: true });
 
 const browser = await chromium.launch();
