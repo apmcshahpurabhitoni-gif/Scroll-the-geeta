@@ -8,3 +8,4 @@ debs/
 chromium-libs/
 fonts/
 fontcache/
+.netlify/

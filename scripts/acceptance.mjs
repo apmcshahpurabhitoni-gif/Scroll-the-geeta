@@ -161,6 +161,16 @@ const waitForApp = async (page) => {
     current: document.querySelector('#feed .verse')?.id || '',
     hash: location.hash,
   }));
+  const readerDom = await page.evaluate(() => ({
+    frameIds: document.querySelectorAll('#verse-frame').length,
+    feedCount: document.querySelectorAll('#feed .verse').length,
+    bodyOverflow: getComputedStyle(document.querySelector('#vbody')).overflowY,
+    feedOverflow: getComputedStyle(document.querySelector('#feed')).overflowY,
+    nestedVerseBodyOverflow: getComputedStyle(document.querySelector('#feed .verse-body')).overflowY,
+  }));
+  record('Reader has no duplicate frame IDs', readerDom.frameIds === 0, JSON.stringify(readerDom));
+  record('Reader uses one scroll container (feed)', readerDom.bodyOverflow === 'hidden' && readerDom.feedOverflow === 'auto' && readerDom.nestedVerseBodyOverflow !== 'auto', JSON.stringify(readerDom));
+
   record(
     'Reader renders exactly the routed verse, not the whole book',
     routed.verses === 701 && routed.rendered === 1 && /^v-\d+-\d+$/.test(routed.current),

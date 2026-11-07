@@ -528,7 +528,7 @@ select {
   position: relative;
   flex: 1;
   min-height: 0;
-  overflow-y: auto;
+  overflow: hidden;
   overscroll-behavior-y: contain;
   scroll-snap-type: y proximity;
   scrollbar-width: none;
@@ -548,11 +548,6 @@ select {
 
 .feed::-webkit-scrollbar {
   display: none;
-}
-
-#verse-frame {
-  height: 100%;
-  overflow: hidden;
 }
 
 .verse {
@@ -585,13 +580,6 @@ select {
 .verse-body {
   display: grid;
   grid-template-columns: minmax(0, 1fr);
-  overflow-y: auto;
-  max-height: 100vh;
-  scrollbar-width: none;
-}
-
-.verse-body::-webkit-scrollbar {
-  display: none;
 }
 
 .verse-gutter {

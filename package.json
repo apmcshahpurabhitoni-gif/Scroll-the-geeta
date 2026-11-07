@@ -4,12 +4,13 @@
   "version": "0.1.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "build:data": "node scripts/build-data.mjs && node scripts/build-meta.mjs",
     "preview": "vite preview",
     "test:acceptance": "node scripts/acceptance.mjs",
-    "audit": "node scripts/audit.mjs"
+    "audit": "node scripts/audit.mjs",
+    "test": "npm run test:acceptance"
   },
   "devDependencies": {
     "playwright": "^1.64.1",
