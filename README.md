@@ -6,7 +6,7 @@ with Vite — no framework.
 
 ```bash
 npm install
-npm run dev      # http://localhost:3000
+npm run dev      # http://localhost:5173
 npm run build
 npm test         # alias: npm run test:acceptance (needs a server on $BASE)
 ```
