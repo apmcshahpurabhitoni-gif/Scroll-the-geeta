@@ -37,7 +37,6 @@ let viewCtx = null;
 let currentIndex = -1;
 let pendingChapter = null;
 let uiReady = false;
-let frameEl = null;
 
 const simulatedFailures = new Set();
 const preloaded = new Set();
@@ -46,21 +45,10 @@ const preloaded = new Set();
 
 export function renderExplore(container, ctx) {
   viewCtx = ctx;
-  // One reader card (#verse-frame) holds the routed verse and nothing else
-  // (Step-0 / check #2: its children.length is 1). #vbody is the scrollable
-  // body between the rails; #feed is the legacy container the acceptance &
-  // screenshot tooling query -> keep it in sync with the same verse.
-  // #verse-frame is the reader card whose only child is the routed verse
-  // (Step-0 / check #2: frame.children.length is 1). #vbody is the scrollable
-  // body between the fixed rails. #feed is the legacy container the acceptance
-  // suite & screenshot tooling query — kept in sync with the same verse.
-  frameEl = document.getElementById('verse-frame') || document.getElementById('vbody') ||
-            document.getElementById('feed');
-  // Accept the router’s original contract (container === #feed with the old
-  // DOM) gracefully: prefer #vbody as the live scroll/body target when present,
-  // but always keep a working feedEl for any code that still reads it.
-  feedEl = document.getElementById('feed') || document.getElementById('vbody') || frameEl;
-  frameEl = document.getElementById('verse-frame') || (frameEl && frameEl.isConnected ? frameEl : feedEl);
+  // #feed is the single verse container inside #vbody. Keep the fixed
+  // rails mounted and make the feed the only scrolling element.
+  feedEl = document.getElementById('feed') || document.getElementById('vbody');
+
   if (!built) buildFrame();
   exploreApplyHash();
 }
@@ -68,8 +56,7 @@ export function renderExplore(container, ctx) {
 function resolveFrameEls() {
   // Refresh element handles in case the DOM is rebuilt (e.g. route changes
   // that recreate the explore view).
-  frameEl = document.getElementById('verse-frame') || feedEl;
-  feedEl = document.getElementById('feed') || document.getElementById('vbody') || frameEl;
+  feedEl = document.getElementById('feed') || document.getElementById('vbody');
 }
 
 function buildFrame() {
@@ -130,21 +117,11 @@ function renderIndex(i, { push = true, focus = false } = {}) {
     frag.append(h('div', { class: 'ad-slot', 'data-ad-after': i }));
   }
 
-  // #verse-frame: the reader card — its ONLY child is the routed verse.
-  // #vbody: scroll container inside the fixed rails (body scrolls only when
-  // the verse overflows). #feed: legacy container the acceptance/screenshot
-  // tooling queries, kept in sync with the same verse.
-  // Place the routed verse into #verse-frame (the reader card — its only
-  // child must be the routed verse, per Step-0 check #2), then also mirror it
-  // into the legacy containers the acceptance/screenshot tooling queries.
-  frameEl.replaceChildren(frag);
-  const vbody = document.getElementById('vbody');
-  if (vbody) vbody.replaceChildren(frag);
-  const feed = document.getElementById('feed');
-  if (feed) feed.replaceChildren(frag);
-  if (feedEl && feedEl !== frameEl && feedEl !== vbody && feedEl !== feed) {
-    if (feedEl.isConnected) feedEl.replaceChildren(frag);
-  }
+  // A DocumentFragment is consumed on insertion. Insert it exactly once into
+  // the real feed; never try to mirror it into multiple containers.
+  if (!feedEl || !feedEl.isConnected) resolveFrameEls();
+  if (!feedEl) return false;
+  feedEl.replaceChildren(frag);
   if (feedEl) feedEl.scrollTop = 0;
 
   const advert = feedEl.querySelector('.ad-slot[data-ad-after]');
@@ -156,7 +133,7 @@ function renderIndex(i, { push = true, focus = false } = {}) {
   repaintTexts();
 
   if (focus) {
-    const verse = (frameEl || vbody || feedEl || document.getElementById('verse-frame') || document.getElementById('vbody') || document.getElementById('feed'))?.querySelector('.verse');
+    const verse = feedEl?.querySelector('.verse');
     if (verse) verse.focus({ preventScroll: true });
   }
   return true;
@@ -171,22 +148,7 @@ function verseCard(v, i) {
     tabindex: '0',
     'aria-label': `Chapter ${v.ch}, verse ${v.v}`,
   });
-  frameEl.append(sec);
-  (function attach(sec) {
-    const vbody = document.getElementById('vbody');
-    if (vbody) {
-      vbody.replaceChildren();
-      vbody.append(sec);
-      return;
-    }
-    const feed = document.getElementById('feed');
-    if (feed) {
-      feed.replaceChildren();
-      feed.append(sec);
-      return;
-    }
-    try { frameEl && frameEl.isConnected && (frameEl.replaceChildren(), frameEl.append(sec)); } catch (e) { /* ignore detached frameEl */ }
-  })(sec);
+  sec.append(buildBody(v, i));
   return sec;
 }
 
