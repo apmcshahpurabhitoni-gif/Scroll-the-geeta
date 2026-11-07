@@ -121,7 +121,6 @@ for (const path of files) {
 const manifest = {
   schemaVersion: 1,
   sourceCommit: process.env.SOURCE_COMMIT || process.env.GITHUB_SHA || 'working-tree',
-  generatedAt: new Date().toISOString(),
   counts: {
     chapters: verseData.chapters.length,
     verses: verseData.verses.length,
