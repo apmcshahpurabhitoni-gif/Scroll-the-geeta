@@ -1,4 +1,4 @@
-name: Android debug build
+name: Android debug build and emulator test
 
 on:
   pull_request:
@@ -11,8 +11,9 @@ permissions:
   contents: read
 
 jobs:
-  assemble-debug:
+  emulator-test:
     runs-on: ubuntu-latest
+    timeout-minutes: 35
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -27,10 +28,27 @@ jobs:
           gradle-version: "9.9.0"
       - name: Assemble debug APK
         run: gradle --no-daemon -p android :app:assembleDebug
+      - name: Run gesture tests on Android emulator
+        uses: reactivecircus/android-emulator-runner@v2
+        with:
+          api-level: 35
+          target: google_apis
+          arch: x86_64
+          profile: pixel_2
+          disable-animations: true
+          script: gradle --no-daemon -p android :app:connectedDebugAndroidTest
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
           name: scroll-the-geeta-debug-apk
           path: android/app/build/outputs/apk/debug/app-debug.apk
           if-no-files-found: error
+          retention-days: 14
+      - name: Upload Android test results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scroll-the-geeta-emulator-test-results
+          path: android/app/build/outputs/androidTest-results/connected/
+          if-no-files-found: ignore
           retention-days: 14
