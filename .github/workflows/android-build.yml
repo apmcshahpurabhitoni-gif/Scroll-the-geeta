@@ -13,7 +13,7 @@ permissions:
 jobs:
   emulator-test:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 45
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -22,12 +22,10 @@ jobs:
         with:
           distribution: temurin
           java-version: "17"
-      - name: Set up Gradle
-        uses: gradle/actions/setup-gradle@v4
-        with:
-          gradle-version: "9.9.0"
+      - name: Make Gradle wrapper executable
+        run: chmod +x android/gradlew
       - name: Assemble debug APK
-        run: gradle --no-daemon -p android :app:assembleDebug
+        run: ./android/gradlew --no-daemon -p android :app:assembleDebug
       - name: Run gesture tests on Android emulator
         uses: reactivecircus/android-emulator-runner@v2
         with:
@@ -36,7 +34,7 @@ jobs:
           arch: x86_64
           profile: pixel_2
           disable-animations: true
-          script: gradle --no-daemon -p android :app:connectedDebugAndroidTest
+          script: ./android/gradlew --no-daemon -p android :app:connectedDebugAndroidTest
       - name: Upload debug APK
         uses: actions/upload-artifact@v4
         with:
