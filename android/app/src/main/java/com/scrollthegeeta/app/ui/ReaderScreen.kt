@@ -1,5 +1,6 @@
 package com.scrollthegeeta.app.ui
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -23,6 +24,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -53,6 +56,16 @@ fun ReaderScreen(verses: List<VersePage>) {
                 )
                 .padding(horizontal = 5.dp, vertical = 8.dp)
         ) {
+            Image(
+                painter = painterResource(id = com.scrollthegeeta.app.R.drawable.krishna_flute_bg),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                alpha = 0.17f,
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .fillMaxWidth()
+                    .height(310.dp)
+            )
             Column(
                 modifier = Modifier
                     .fillMaxSize()
