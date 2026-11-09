@@ -5,19 +5,26 @@ import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.Color
 
-private val Paper = Color(0xFFF7F3EA)
-private val Ink = Color(0xFF29251F)
-private val Terracotta = Color(0xFF9C4F38)
-private val MutedInk = Color(0xFF6E6257)
+private val Parchment = Color(0xFFFFF6E8)
+private val DeepBrown = Color(0xFF4A2412)
+private val Saffron = Color(0xFFC87920)
+private val AntiqueGold = Color(0xFFE6AD55)
+private val MutedBrown = Color(0xFF8B6A50)
+private val CardCream = Color(0xFFFFFBF4)
 
 private val ScrollColorScheme = lightColorScheme(
-    primary = Terracotta,
+    primary = Saffron,
     onPrimary = Color.White,
-    secondary = MutedInk,
-    background = Paper,
-    onBackground = Ink,
-    surface = Paper,
-    onSurface = Ink
+    secondary = MutedBrown,
+    onSecondary = Color.White,
+    tertiary = AntiqueGold,
+    background = Parchment,
+    onBackground = DeepBrown,
+    surface = CardCream,
+    onSurface = DeepBrown,
+    surfaceVariant = Color(0xFFF5E5CF),
+    onSurfaceVariant = MutedBrown,
+    outline = Color(0xFFE3BD8B)
 )
 
 @Composable
