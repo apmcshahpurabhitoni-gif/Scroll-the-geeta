@@ -8,3 +8,11 @@ debs/
 chromium-libs/
 fonts/
 fontcache/
+# Android / Gradle
+/android/.gradle/
+/android/**/build/
+/android/local.properties
+/android/.idea/
+/android/*.iml
+*.jks
+*.keystore
